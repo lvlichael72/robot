@@ -10,6 +10,10 @@ temp = [ 0 for x in range(n)]
 Matrix = [temp for x in range(n)]
 #print(Matrix)
 
+temp = [1 for x in range(n)]
+routeCheck = [ temp for x in range(n)]
+
+
 # 1D to 2D list convertor
 def convert(lst, var_lst): 
     it = iter(lst) 
@@ -21,17 +25,16 @@ var_lst = [ n for x in range (n)]
 
 
 
-
-
-
-
-roadMap =[]
-
-#init pattern
+#init pattern and roadMap
 pattern = []
+roadMap =[]
+registered =[]
+c=1
 for x in range(n*n):
     pattern.append(0)
-
+    roadMap.append(c)
+    registered.append(0)
+    c+=1
 
 
 #first and last step 
@@ -59,5 +62,21 @@ for x in range(n):
 
 
 Matrix = convert(pattern , var_lst)
+RoadMapMatrix = convert(roadMap , var_lst)
 
-#print(Matrix[1][1])
+
+print(pattern)
+print(roadMap)
+print(RoadMapMatrix[3][3])
+
+for x in range(n):
+    for y in range(n):
+        #print(routeCheck[x][y])
+      pass
+
+def RightMove(x,y,roadMap):
+    pass
+
+def UpMove(x,y,roadMap):
+    pass
+
