@@ -35,8 +35,6 @@ c=1
 for x in range(n*n):
     pattern.append(0)
     roadMap.append(c)
-    registered.append(0)
-    memory.append(0)
     c+=1
 
 
@@ -69,133 +67,185 @@ RoadMapMatrix = convert(roadMap , var_lst)
 
 print(pattern)
 print(roadMap)
-print(RoadMapMatrix[3][3])
+#print(RoadMapMatrix[3][3])
 
 
 def CheckNext(x,y,direction):
+
     if(direction == 'R'):
+        print(n*x+y+1,'pattern index')
+        
         if(pattern[n*x+y+1]!=0 and pattern[n*x+y+1] != -1):
             pattern[x*n+y] = pattern[x*n+y]-1
             return True
     elif(direction == 'U'):
+        print(pattern[n*x+y+1])
         if (pattern[n*x+y+n]!=0 and pattern[n*x+y+n] != -1 ):
             pattern[x*n+y] = pattern[x*n+y]-1
             return True
         elif(pattern[n*x+y+n] == -1):
             pattern[x*n+y] = 0
             return False
+        
     else:
         return False
 
 def CheckRepeat(tempRoad):
-    if(len(memory) == 0  or memory[len(memory)-1] != tempRoad ):
+ 
+
+    if(len(memory) == 0): 
+        return True
+    elif (list(memory[len(memory)-1]) != tempRoad ):
         return True
     else:
+        print(memory[len(memory)-1],'memory')
+        print(tempRoad,'temproad')
+        print(registered,'regex')
+        print('$$$$$$$$')
         return False
 
 
-def RightMove(x,y,tempRoad):
+def RightMove(x,y):
+    print('right')
+   # print(tempRoad)
+    print(registered,'registerd')
     if(x==0 and y==0 and CheckNext(x,y,'R')): # (0,0) point
         tempRoad.append(RoadMapMatrix[x][y])
+        print('001here')
+       # print(pattern)
         #tempRoad.append(RoadMapMatrix[x][y+1])
         #pattern[x*n+y] = pattern[x*n+y]-1
         y+=1
         #pattern[x*n+y] = pattern[x*n+y]-1
-        RightMove(x,y,tempRoad)
+        RightMove(x,y)
     if(x==0 and y==0 and not(CheckNext(x,y,'R')) ): # (0,0) point
         #pattern[x*n+y] = pattern[x*n+y]-1
-        UpMove(x,y,tempRoad)
+        UpMove(x,y)
 
     if(x==n-1 and y==n-2): #Pivot point to register
+        print('now here 123')
         #this is also check repeat ??? 
-        tempRoad.append(roadMap[n*x+y])
-        memory.append(tempRoad)
-        if(CheckRepeat(tempRoad) and CheckNext(x,y,'R')):
-           # pattern[x*n+y] = pattern[x*n+y]-1
-
-            tempRoad.append(roadMap[n*x+y+1])
-            registered.append(tempRoad)
-            tempRoad.clear()
-            x=0
-            y=0
-            #should call move again here !!!!!!!!!!!!!! otherwise its only one move
-            RightMove(x,y,tempRoad)
-        else:
-            pass
-            #TODO: write the repeat 
-
-    if(x==n-2 and y==n-1):  #Pivot point 2 to register
-        tempRoad.append(Matrix[x][y])
-        memory.append(tempRoad)
+        tempRoad.append(RoadMapMatrix[x][y])
+        
         if(CheckRepeat(tempRoad)):
-            if(CheckNext(x,y,'U')):
-            #pattern[x*n+y] = pattern[x*n+y]-1
-                tempRoad.append(Matrix[x][y+1])
-                registered.append(tempRoad)
+            if (CheckNext(x,y,'R')):
+                # pattern[x*n+y] = pattern[x*n+y]-1
+                memory.append(tuple(tempRoad))
+                tempRoad.append(RoadMapMatrix[x][y+1])
+                registered.append(tuple(tempRoad))
                 tempRoad.clear()
                 x=0
                 y=0
-                RightMove(x,y,tempRoad)
+            #should call move again here !!!!!!!!!!!!!! otherwise its only one move
+            RightMove(x,y)
         else:
             pass
-            #TODO: write the repeat 
+            #TODO: write the repeat ig
 
-
-    if(x<n-2 and y==n-1):
+    if(x==n-2 and y==n-1):  #Pivot point 2 to register
+        print('002here','x=',x,'y=',y)
         tempRoad.append(RoadMapMatrix[x][y])
-        memory.append(tempRoad)
+        
+        if(CheckRepeat(tempRoad)):
+            if(CheckNext(x,y,'U')):
+            #pattern[x*n+y] = pattern[x*n+y]-1
+                memory.append(tuple(tempRoad))
+                print('fucking memory? ',memory)
+                tempRoad.append(RoadMapMatrix[x+1][y])
+                registered.append(tuple(tempRoad))
+                tempRoad.clear()
+                print('002here','temp',tempRoad,'registered',registered,'memory',memory)
+                x=0
+                y=0
+                RightMove(x,y)
+        else:
+            print('@@@@@')
+            tempRoad.pop()
+            y-=1
+            UpMove(x,y)
+
+
+    if( x!=0 and x<n-2 and y==n-1):
+        print('x=',x,'y=',y)
+        print('004here')
+        #print('here')
+        
+        tempRoad.append(RoadMapMatrix[x][y])
+      #  print(tempRoad)
         if(CheckRepeat(tempRoad)):
 
             if(CheckNext(x,y,'U')):
                 #pattern[x*n+y] = pattern[x*n+y]-1
                # tempRoad.append(RoadMapMatrix[x][y])
-                UpMove(x,y,tempRoad)
+                memory.append(tempRoad)
+                UpMove(x,y)
             else:
                 pattern[x*n+y] = 0
                 tempRoad.clear()
                 x=0
                 y=0
-                RightMove(x,y,tempRoad)
+                RightMove(x,y)
         else:
+            print('005here')
             tempRoad.pop()
             y-=1 # one step to left
-            UpMove(x,y,tempRoad) # then goes up
+            UpMove(x,y) # then goes up
 
     if(x==n-1 and y<n-2):
+        print('006here')
         if(CheckNext(x,y,'R')):
-            pattern[x*n+y] = pattern[x*n+y]-1
+            #pattern[x*n+y] = pattern[x*n+y]-1
             tempRoad.append(RoadMapMatrix[x][y])
             y+=1
-            RightMove(x,y,tempRoad)
+            RightMove(x,y)
 
         else:
             pattern[x*n+y] = 0 
             tempRoad.clear()
             x=0
             y=0
-            RightMove(x,y,tempRoad)
+            RightMove(x,y)
+    if(x==0 and y==n-1):                            #this is for corner right down
+        if (CheckNext(x,y,'U')):
+            tempRoad.append(RoadMapMatrix[x][y])
+            print('Check corner',x , y)
+            UpMove(x,y)
+        else:
+            pattern[n*x+y] = 0 
+            
     else:
         if(CheckNext(x,y,'R')):
             tempRoad.append(RoadMapMatrix[x][y])
+            print(tempRoad,'ghgh')
             y+=1
-            RightMove(x,y,tempRoad)
+            RightMove(x,y)
         elif(CheckNext(x,y,'U')):
             tempRoad.append(RoadMapMatrix[x][y])
-            UpMove(x,y,tempRoad)
+            UpMove(x,y)
             
             
 
-def UpMove(x,y,tempRoad):
+def UpMove(x,y):
+    print('UP')
     if(x==0 and y==0 and CheckNext(x,y,'U')): # (0,0) point
+        print('007here')
         tempRoad.append(RoadMapMatrix[x][y])
         #tempRoad.append(RoadMapMatrix[x+1][y])
        # pattern[x*n+y] = pattern[x*n+y]-1
         x+=1
        # pattern[x*n+y] = pattern[x*n+y]-1
-        RightMove(x,y,tempRoad)
+        RightMove(x,y)
     if(x==0 and y==0 and  not(CheckNext(x,y,'U'))):
         print ("the end")
     else:
+        print('008here')
+        print('herehrerer',x,y)
         x+=1
-        RightMove(x,y,tempRoad)
+        RightMove(x,y)
+
+
+
+RightMove(0,0)
+
+print(registered)
 
