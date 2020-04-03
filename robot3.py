@@ -1,10 +1,9 @@
+#import
 import math
 import sys
-
 from itertools import islice 
-
-sys.setrecursionlimit(99999)
-#define n 
+sys.setrecursionlimit(30000)
+print('test')
 n=4
 
 #Create 2D  intitak List
@@ -65,24 +64,17 @@ for x in range(n):
 
 Matrix = convert(pattern , var_lst)
 RoadMapMatrix = convert(roadMap , var_lst)
-#pattern[5]=-1
 
-print(pattern)
-print(roadMap)
-#print(RoadMapMatrix[3][3])
 
 
 def CheckNext(x,y,direction):
-    try:
+    #if(pattern[0]!=0):
         if(direction == 'R' and (n*x+y+1) < n*n):
             print(n*x+y+1,'pattern index','x=',x,'y=',y)
             
             if(pattern[n*x+y+1]!=0 and pattern[n*x+y+1] != -1):
                 pattern[x*n+y] = pattern[x*n+y]-1
                 return True
-            if(pattern[0]==0):
-                pattern[len(pattern)-1]=0
-                pattern[len(pattern)-2]=0
         elif(direction == 'U' and (n*x+y+1) < n*n):
             #print(pattern[n*x+y+1])
             if (pattern[n*x+y+n]!=0 and pattern[n*x+y+n] != -1 ):
@@ -96,8 +88,7 @@ def CheckNext(x,y,direction):
             print('X=',x,'Y=',y)
             pattern[x*n+y] = pattern[x*n+y]-1
             return True
-    except:
-         pass
+    #else:
      #   return False
 
 def printRegistered():
@@ -157,7 +148,7 @@ def RightMove(x,y):
                     x=0
                     y=0
                 #should call move again here !!!!!!!!!!!!!! otherwise its only one move
-                    RightMove(x,y)
+                RightMove(x,y)
             else:
                 while(tempRoad[len(tempRoad)-1]-1 != tempRoad[len(tempRoad)-2]):
                     pattern[x*n+y]+=1
@@ -315,9 +306,17 @@ def UpMove(x,y):
 
 
 
-RightMove(0,0)
 
 
 
-#print(registered)
 
+def main():
+    if(x<n and y<n):
+        RightMove(0,0)
+
+
+
+
+
+if __name__ == "__main__":
+    main()
