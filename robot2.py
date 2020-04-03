@@ -1,9 +1,11 @@
 import math
+import sys
+
 from itertools import islice 
 
-
+sys.setrecursionlimit(30000)
 #define n 
-n=5
+n=2
 
 #Create 2D  intitak List
 temp = [ 0 for x in range(n)]
@@ -283,6 +285,7 @@ def UpMove(x,y):
        # pattern[x*n+y] = pattern[x*n+y]-1
         x+=1
        # pattern[x*n+y] = pattern[x*n+y]-1
+        print('@M', x ,'=x',y,'=y')
         RightMove(x,y)
     if(x==0 and y==0 and  not(CheckNext(x,y,'U'))):
         print ("the end")
