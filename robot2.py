@@ -10,7 +10,7 @@ n=4
 #Create 2D  intitak List
 temp = [ 0 for x in range(n)]
 Matrix = [temp for x in range(n)]
-#print(Matrix)
+
 
 temp = [1 for x in range(n)]
 routeCheck = [ temp for x in range(n)]
@@ -42,7 +42,7 @@ for x in range(n*n):
 
 #first and last step 
 step = (math.factorial((n-1)*2))/(math.factorial(n-1)*math.factorial(n-1))
-#print(step)
+
 pattern[0] = pattern [(n*n)-1] = step
 
 
@@ -53,29 +53,26 @@ for x in range(n):
             step = math.factorial(2*n-2-x-y)/(math.factorial(n-1-x)*math.factorial(n-1-y))
             Matrix[x][y] = step 
             pattern [x*n + y]= step
-            #print (x , 'x and y',y , 'step', step )
+           
         if (((x==n-1) or (y==n-1) or (x>0 and y>0)) and not(x==y==n-1)):
             s = math.factorial(x+y)/(math.factorial(x)*math.factorial(y))
             tep = math.factorial(2*n-2-x-y)/(math.factorial(n-1-x)*math.factorial(n-1-y))
-         #  print(s,'s',tep,'tep')
+     
             step = s*tep
-            pattern[x*n +y] = step
+            pattern[x*n+y] = step
 
 
 
 Matrix = convert(pattern , var_lst)
 RoadMapMatrix = convert(roadMap , var_lst)
 #pattern[5]=-1
-
-print(pattern)
-print(roadMap)
-#print(RoadMapMatrix[3][3])
-
+#print(pattern)
+#print(roadMap)
 
 def CheckNext(x,y,direction):
     try:
         if(direction == 'R' and (n*x+y+1) < n*n):
-            print(n*x+y+1,'pattern index','x=',x,'y=',y)
+            #print(n*x+y+1,'pattern index','x=',x,'y=',y)
             
             if(pattern[n*x+y+1]!=0 and pattern[n*x+y+1] != -1):
                 pattern[x*n+y] = pattern[x*n+y]-1
@@ -93,7 +90,7 @@ def CheckNext(x,y,direction):
                 return False
             
         else:
-            print('X=',x,'Y=',y)
+           # print('X=',x,'Y=',y)
             pattern[x*n+y] = pattern[x*n+y]-1
             return True
     except:
@@ -105,19 +102,19 @@ def printRegistered():
 
 
 def CheckRepeat(tempRoad):
-    print('PATTERNG',pattern)
+    #print('PATTERNG',pattern)
     if (len(registered) != 0):
         if(len(memory) == 0): 
             return True
         #elif (list(memory[len(memory)-1]) != tempRoad ):
         elif (tuple(tempRoad) in list(memory)):
-                    print("CHECK REPEAT:",list(memory[len(memory)-1]) ,' and',tempRoad)
+                    #print("CHECK REPEAT:",list(memory[len(memory)-1]) ,' and',tempRoad)
                     return False
         else:
-            print(memory[len(memory)-1],'memory')
-            print(tempRoad,'temproad')
-            print(registered,'regex')
-            print('$$$$$$$$')
+           # print(memory[len(memory)-1],'memory')
+            #print(tempRoad,'temproad')
+            #print(registered,'regex')
+            #print('$$$$$$$$')
             return True
     else:
         return True
@@ -125,13 +122,13 @@ def CheckRepeat(tempRoad):
 
 def RightMove(x,y):
     #if(pattern[0]!= 0):
-        print('right')
+        #print('right')
     # print(tempRoad)
-        print(registered,'registerd')
-        print(pattern,'pattern FINAL')
+        #print(registered,'registerd')
+        #print(pattern,'pattern FINAL')
         if(x==0 and y==0 and CheckNext(x,y,'R')): # (0,0) point
             tempRoad.append(RoadMapMatrix[x][y])
-            print('001here')
+         #   print('001here')
         # print(pattern)
             #tempRoad.append(RoadMapMatrix[x][y+1])
             #pattern[x*n+y] = pattern[x*n+y]-1
@@ -143,7 +140,7 @@ def RightMove(x,y):
             UpMove(x,y)
 
         if(x==n-1 and y==n-2): #Pivot point to register
-            print('now here 123')
+           # print('now here 123')
             #this is also check repeat ??? 
             tempRoad.append(RoadMapMatrix[x][y])
             
